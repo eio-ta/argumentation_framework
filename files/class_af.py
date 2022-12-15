@@ -1,3 +1,5 @@
+import itertools
+
 class ArgF:
     def __init__(self):
         self.args = []
@@ -39,3 +41,75 @@ class ArgF:
                 else:
                     return False
         return True
+
+    def is_weak(self, e):
+        for a, b in self.attacks:
+            if(a == e):
+                return False
+        return True
+    
+    def is_well(self, e):
+        for a, b in self.attacks:
+            if(a == e):
+                return False
+            if(b == e):
+                return False
+        return True
+
+
+    def is_cf(self, list):
+        for a, b in self.attacks:
+            if(a in list and b in list):
+                return True
+        return False
+    
+    def get_valide(self):
+        valide = list(self.args)
+        for a, b in self.attacks:
+            if(b in valide):
+                valide.remove(b)
+        return valide
+    
+    def defense(self, ori = []):
+        valide = list(ori)
+        if(valide == []):
+            valide = self.get_valide()
+        invalide = []
+        for e in valide:
+            for a, b in self.attacks:
+                if(a == e):
+                    if(b not in invalide):
+                        invalide.append(b)
+                        if(b in valide):
+                            valide.remove(b)
+                        for c, d in self.attacks:
+                            if(c == b):
+                                if(d not in valide and d not in invalide):
+                                    valide.append(d)
+        if(valide == ori and len(ori) == 1 and self.is_well(ori[0])):
+            return valide
+        if(valide == ori and len(ori) == 1 and self.is_weak(ori[0])):
+            return []
+        return valide
+
+    def grounded(self):
+        res = []
+        res.append(self.defense())
+        return res
+
+    def completed(self):
+        res = []
+        permutations = list(self.args)
+        for i in range(2, len(self.args)+1):
+            permutations += list(itertools.combinations(self.args, i))
+        for i in range(len(permutations)):
+            tmp = list(permutations[i])
+            if(self.is_cf(tmp) == False):
+                tmp_def = self.defense(tmp)
+                tmp_valide = self.get_valide()
+                if(all(elem in tmp_def for elem in tmp_valide)):
+                    if(tmp_def == tmp):
+                        res.append(tmp_def)
+        if(self.get_valide() == []):
+            res.append([])
+        return res
