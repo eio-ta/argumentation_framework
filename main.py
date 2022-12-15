@@ -7,6 +7,8 @@ from class_af import *
 
 def print_ans(list):
     if(list == [[]]):
+        print("[]")
+    elif(list == []):
         print("NO")
     else:
         str = ""
@@ -65,8 +67,15 @@ def main(argv):
         if(af.add_from_list(data)):
             good_af = af.is_good() 
             if(good_af[0]):
-                print_ans(af.grounded())
-                print_ans(af.completed())
+                grounded = af.grounded()
+                completed = af.completed()
+                preferred = af.preferred(completed)
+                stable = af.stable(preferred)
+
+                print_ans(grounded)
+                print_ans(completed)
+                print_ans(preferred)
+                print_ans(stable)
 
 
 

@@ -56,7 +56,6 @@ class ArgF:
                 return False
         return True
 
-
     def is_cf(self, list):
         for a, b in self.attacks:
             if(a in list and b in list):
@@ -112,4 +111,34 @@ class ArgF:
                         res.append(tmp_def)
         if(self.get_valide() == []):
             res.append([])
+        return res
+
+    def preferred(self, completed):
+        if(len(completed) == 1):
+            return completed
+        else:
+            res = []
+            for i in range(len(completed)):
+                tmp = True
+                for j in range(len(completed)):
+                    if(all(elem in completed[j] for elem in completed[i]) == False):
+                        tmp = False
+                if(tmp == False):
+                    res.append(completed[i])
+            return res
+
+    def stable(self, preferred):
+        res = []
+        for i in range(len(preferred)):
+            attacked = []
+            for a, b in self.attacks:
+                if(a in preferred[i]):
+                    if(b not in attacked):
+                        attacked.append(b)
+            tmp = True
+            for a in self.args:
+                if(not (a in preferred[i] or a in attacked)):
+                    tmp = False
+            if(tmp):
+                res.append(preferred[i])
         return res
