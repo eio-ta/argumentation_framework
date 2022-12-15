@@ -1,11 +1,26 @@
 import sys
-sys.path.append('./files/')
-
 from class_af import *
 
 
 
 ## FONCTIONS UTILITAIRES  #########################################################
+
+def print_ans(list):
+    if(list == [[]]):
+        print("NO")
+    else:
+        str = ""
+        for i in range(len(list)):
+            str += "["
+            if(len(list[i]) != 0):
+                for j in range(len(list[i])-1):
+                    str += list[i][j] + ","
+                str += list[i][len(list[i])-1]
+            str += "]"
+            if((i+1) < len(list)):
+                str += " "    
+        print(str)
+
 
 def read_file(filename):
     with open(filename) as f:
@@ -50,9 +65,8 @@ def main(argv):
         if(af.add_from_list(data)):
             good_af = af.is_good() 
             if(good_af[0]):
-                af.print_argf()
-                print(af.grounded())
-                print(af.completed())
+                print_ans(af.grounded())
+                print_ans(af.completed())
 
 
 
