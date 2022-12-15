@@ -29,6 +29,22 @@ def print_bol(b):
     else:
         print("NO")
 
+def contains_all(e, list, b):
+    if(list == [[]]):
+        print("NO")
+    elif(list == []):
+        print("NO")
+    else:
+        tmp = b
+        for i in range(len(list)):
+            if(b == False):
+                if(e in list[i]):
+                    tmp = True
+            else:
+                if(e not in list[i]):
+                    tmp = False
+        print_bol(tmp)
+
 
 def read_file(filename):
     with open(filename) as f:
@@ -64,7 +80,6 @@ def good_code(code, arg, af):
     co = af.completed()
     pr = af.preferred(co)
     st = af.stable(pr)
-    tmp = True
 
     match code:
         case "SE-GR":
@@ -90,50 +105,16 @@ def good_code(code, arg, af):
             print_ans(st)
             return
         case "DS-CO":
-            if(co == [[]]):
-                print("NO")
-            elif(co == []):
-                print("NO")
-            else:
-                for i in range(len(co)):
-                    if(arg in co[i]):
-                        tmp = False
-                print_bol(tmp)
+            contains_all(arg, co, True)
             return
         case "DC-CO":
-            if(co == [[]]):
-                print("NO")
-            elif(co == []):
-                print("NO")
-            else:
-                tmp = False
-                for i in range(len(co)):
-                    if(arg in co[i]):
-                        tmp = True
-                print_bol(tmp)
+            contains_all(arg, co, False)
             return
         case "DS-ST":
-            if(st == [[]]):
-                print("NO")
-            elif(st == []):
-                print("NO")
-            else:
-                for i in range(len(st)):
-                    if(arg not in st[i]):
-                        tmp = False
-                print_bol(tmp)
+            contains_all(arg, st, True)
             return
         case "DC-ST":
-            if(st == [[]]):
-                print("NO")
-            elif(st == []):
-                print("NO")
-            else:
-                tmp = False
-                for i in range(len(st)):
-                    if(arg in st[i]):
-                        tmp = True
-                print_bol(tmp)
+            contains_all(arg, st, False)
             return
         case _ :
             print_help()
