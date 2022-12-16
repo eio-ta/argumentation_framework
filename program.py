@@ -75,10 +75,10 @@ def print_help():
 
     print("\033[1m" + "EXEMPLE" + "\033[0m")
     print("Pour afficher le graphe complet du fichier \"test.txt\" :")
-    print("\033[1m  python3 main.py -p SE-CO -f test.txt \033[0m")
+    print("\033[1m  python3 program.py -p SE-CO -f test.txt \033[0m")
     print()
     print("Pour voir si l'argument \"a\" est acceptée crédulement pour le graphe stable du fichier \"test.txt\" :")
-    print("\033[1m  python3 main.py -p DC-CO -f test.txt -a a \033[0m")
+    print("\033[1m  python3 program.py -p DC-CO -f test.txt -a a \033[0m")
     print()
     print()
 
