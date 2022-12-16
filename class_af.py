@@ -1,22 +1,39 @@
 import itertools
 
+
+
+##  Définition de la classe AF  ####################################################################
+
+
+# Classe AF "Argumentation Framework"
 class ArgF:
+
+    # Construteur de l'objet
     def __init__(self):
         self.args = []
         self.attacks = []
 
+
+    # Ajoute un argument
     def add_args(self, a):
         self.args.append(a)
 
+
+    # Ajoute une attaque entre deux arguments
     def add_attacks(self, a, b):
         self.attacks.append([a, b])
 
+
+    # Affiche les attributs de l'objet
     def print_argf(self):
         print("Arguments : ", end = ' ')
         print(self.args)
         print("Attacks : ", end = ' ')
         print(self.attacks)
 
+
+    # Retourne True si l'objet est correctement construit
+    # Retourne False et son message d'erreur sinon
     def is_good(self):
         for a in self.args:
             if(self.args.count(a) != 1):
@@ -28,6 +45,8 @@ class ArgF:
                 return False, "Erreur : argument non dans la liste"
         return True, ""
 
+
+    # Ajoute à l'objet ses attributs en fonction d'une liste
     def add_from_list(self, data):
         for d in data:
             if(d[len(d)-1] != '.'):
@@ -42,12 +61,18 @@ class ArgF:
                     return False
         return True
 
+
+    # Retourne True si l'argument e n'attaque personne
+    # Retourne False sinon
     def is_weak(self, e):
         for a, b in self.attacks:
             if(a == e):
                 return False
         return True
     
+
+    # Retourne True si l'argument e n'attaque personne et n'est pas attaqué
+    # Retourne False sinon
     def is_well(self, e):
         for a, b in self.attacks:
             if(a == e):
@@ -56,12 +81,17 @@ class ArgF:
                 return False
         return True
 
+
+    # Retourne True si la liste d'arguments est conflict-free
+    # Retourne False sinon
     def is_cf(self, list):
         for a, b in self.attacks:
             if(a in list and b in list):
                 return True
         return False
     
+
+    # Retourne tous les arguments non attaqués
     def get_valide(self):
         valide = list(self.args)
         for a, b in self.attacks:
@@ -69,6 +99,8 @@ class ArgF:
                 valide.remove(b)
         return valide
     
+
+    # Retourne tous les arguments non attaqués et ceux défendus par la liste ori
     def defense(self, ori = []):
         valide = list(ori)
         if(valide == []):
@@ -91,6 +123,8 @@ class ArgF:
             return []
         return valide
     
+
+    # Retourne tous les arguments non attaqués et ceux défendus par la liste ori de manière récursive
     def defense_recursive(self, ori = []):
         valide = ori
         tmp_def = self.defense(ori)
@@ -102,6 +136,8 @@ class ArgF:
                 tmp_def = self.defense(valide)
         return valide
 
+
+    # Retourne la sémantique fondée
     def grounded(self):
         res = []
         res.append(self.defense_recursive())
@@ -112,6 +148,8 @@ class ArgF:
             a.sort()
         return res
 
+
+    # Retourne la sémantique complète
     def completed(self):
         res = []
         permutations = list(self.args)
@@ -133,6 +171,8 @@ class ArgF:
 
         return res
 
+
+    # Retourne la sémantique préférée
     def preferred(self, completed):
         if(len(completed) == 1):
             return completed
@@ -147,6 +187,8 @@ class ArgF:
                     res.append(completed[i])
             return res
 
+
+    # Retourne la sémantique stable
     def stable(self, preferred):
         res = []
         for i in range(len(preferred)):
@@ -162,3 +204,26 @@ class ArgF:
             if(tmp):
                 res.append(preferred[i])
         return res
+
+
+    # Si b = True, retourne les arguments acceptés sceptiquement
+    # Sinon retourne les arguments acceptés crédulement
+    def give_sem(self, list, b):
+        res = []
+        if(list == [[]]):
+            return []
+        elif(list == []):
+            return []
+        else:
+            for e in self.args:
+                tmp = b
+                for i in range(len(list)):
+                    if(b == False):
+                        if(e in list[i]):
+                            tmp = True
+                    else:
+                        if(e not in list[i]):
+                            tmp = False
+                if(tmp):
+                    res.append(e)
+            return res

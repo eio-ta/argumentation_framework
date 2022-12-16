@@ -1,10 +1,16 @@
 import sys
 from class_af import *
 
+import os
+width = os.get_terminal_size().columns
 
 
-## FONCTIONS UTILITAIRES  #########################################################
 
+
+## FONCTIONS UTILITAIRES  ##########################################################################
+
+
+# Affiche correctement les sémantiques
 def print_ans(list):
     if(list == [[]]):
         print("[]")
@@ -23,29 +29,25 @@ def print_ans(list):
                 str += " "    
         print(str)
 
+
+# Affiche correctement les booléens
 def print_bol(b):
     if(b == True):
         print("YES")
     else:
         print("NO")
 
-def contains_all(e, list, b):
-    if(list == [[]]):
-        print("NO")
-    elif(list == []):
-        print("NO")
+
+# Vérifie si l'argument e est acceptée crédulement ou sceptiquement ou non
+def contains_all(e, list, b, af):
+    res = af.give_sem(list, b)
+    if(e in res):
+        return True
     else:
-        tmp = b
-        for i in range(len(list)):
-            if(b == False):
-                if(e in list[i]):
-                    tmp = True
-            else:
-                if(e not in list[i]):
-                    tmp = False
-        print_bol(tmp)
+        return False
 
 
+# Lis le contenu d'un fichier
 def read_file(filename):
     with open(filename) as f:
         contents = f.read()
@@ -53,28 +55,70 @@ def read_file(filename):
         if(res[-1] == ""):
             return res[:-1]
         return res
-    
+
+
+# Affiche le message d'aide
 def print_help():
-    # print("Commandes de l'utilisateur")
-    # print("DESCRIPTION   ")
+    print()
+    print("Commandes de l'utilisateur".center(width))
+    print()
+    print()
 
-    print("Commande sous la forme: \"COMMANDE -p [CODE] -f [NOM_FICHIER]\n")
+    print("\033[1m" + "DESCRIPTION" + "\033[0m")
 
-    print("Informations sur les arguments :")
-    print("\"-p\" : pour spécifier le code de la commande")
-    print("\"-f\" : pour spécifier le nom du fichier")
+    print("On appelle \"Argumentation Framework\" (AF) un graphe <A,R> avec les arguments A et les attaques R. Le programme ci-présent donne les différentes extensions et sémantiques.")
+    print()
 
-    print("\"-h\" : pour afficher ce message d'aide")
-    
-    # print("\"-esperance\" : pour afficher l'espérance de T")
-    # print("\"-mesureX\" : pour afficher la mesure invariante de la loi X_n (*)")
-    # print("\"-mesureY\" : pour afficher la mesure invariante de la loi Y_n (**)")
+    print("Cette version accepte les options qui doivent être précédées d'un tiret et doit être suivies par un argument.")
+    print()
+    print()
 
-    # print("\"-h\" pour afficher ce message d'aide\n")
+    print("\033[1m" + "EXEMPLE" + "\033[0m")
+    print("Pour afficher le graphe complet du fichier \"test.txt\" :")
+    print("\033[1m  python3 main.py -p SE-CO -f test.txt \033[0m")
+    print()
+    print("Pour voir si l'argument \"a\" est acceptée crédulement pour le graphe stable du fichier \"test.txt\" :")
+    print("\033[1m  python3 main.py -p DC-CO -f test.txt -a a \033[0m")
+    print()
+    print()
 
-    # print("(*) et (**) sont deux lois qui sont expliquées dans le README.md.")
+    print("\033[1m" + "INTRODUCTION AUX OPTIONS POSSIBLES" + "\033[0m")
+    print("\033[1m  a  \033[0m Cible un argument précis [un argument obligatoire]")
+    print()
+    print("\033[1m  f  \033[0m Cible un fichier précis décrivant un AR. [un argument obligatoire]")
+    print()
+    print("\033[1m  h  \033[0m Affiche ce message d'aide. [sans argument]")
+    print()
+    print("\033[1m  p  \033[0m Précise le code de l'action que veut l'utilisateur. [un argument obligatoire]")
+    print()
+    print("Les options \"p\" et \"f\" sont obligatoires.")
+    print()
+    print()
+
+    print("\033[1m" + "LISTE DES CODES POSSIBLES" + "\033[0m")
+    print("\033[1m  PR-AF  \033[0m Affiche le graphe.")
+    print()
+    print("\033[1m  SE-GR  \033[0m Donne la sémantique fondée.")
+    print()
+    print("\033[1m  SE-CO  \033[0m Donne la sémantique complète.")
+    print()
+    print("\033[1m  SE-PR  \033[0m Donne la sémantique préférée.")
+    print()
+    print("\033[1m  SE-ST  \033[0m Donne la sémantique stable.")
+    print()
+    print("\033[1m  SE-ALL  \033[0m Donne toutes les sémantiques.")
+    print()
+    print("\033[1m  DC-CO  \033[0m (Sans argument) Donne tous les arguments crédulement acceptés. (Avec un argument) Vérifie si l'argument est crédulement accepté. [Pour la sémantique complète].")
+    print()
+    print("\033[1m  DS-CO  \033[0m (Sans argument) Donne tous les arguments sceptiquement acceptés. (Avec un argument) Vérifie si l'argument est sceptiquement accepté. [Pour la sémantique complète].")
+    print()
+    print("\033[1m  DC-ST  \033[0m (Sans argument) Donne tous les arguments crédulement acceptés. (Avec un argument) Vérifie si l'argument est crédulement accepté. [Pour la sémantique stable].")
+    print()
+    print("\033[1m  DS-ST  \033[0m (Sans argument) Donne tous les arguments sceptiquement acceptés. (Avec un argument) Vérifie si l'argument est sceptiquement accepté. [Pour la sémantique stable].")
+    print()
 
 
+# Répond à la demande de l'utilisateur
 def good_code(code, arg, af):
     gr = af.grounded()
     co = af.completed()
@@ -82,6 +126,9 @@ def good_code(code, arg, af):
     st = af.stable(pr)
 
     match code:
+        case "PR-AF":
+            af.print_argf()
+            return
         case "SE-GR":
             print_ans(gr)
             return
@@ -105,16 +152,28 @@ def good_code(code, arg, af):
             print_ans(st)
             return
         case "DS-CO":
-            contains_all(arg, co, True)
+            if(arg != ""):
+                print_bol(contains_all(arg, co, True, af))
+            else:
+                print_ans(af.give_sem(co, True))
             return
         case "DC-CO":
-            contains_all(arg, co, False)
+            if(arg != ""):
+                print_bol(contains_all(arg, co, False, af))
+            else:
+                print_ans(af.give_sem(co, False))
             return
         case "DS-ST":
-            contains_all(arg, st, True)
+            if(arg != ""):
+                print_bol(contains_all(arg, st, True, af))
+            else:
+                print_ans(af.give_sem(st, True))
             return
         case "DC-ST":
-            contains_all(arg, st, False)
+            if(arg != ""):
+                print_bol(contains_all(arg, st, False, af))
+            else:
+                print_ans(af.give_sem(st, False))
             return
         case _ :
             print_help()
@@ -123,8 +182,7 @@ def good_code(code, arg, af):
 
 
 
-
-##   MAIN   #######################################################################
+##   MAIN   ########################################################################################
 
 def main(argv):
     if(len(argv) >= 1):
@@ -162,7 +220,6 @@ def main(argv):
         print_help()
         return
 
-    
-    
+
 if __name__ == "__main__":
    main(sys.argv[1:])
