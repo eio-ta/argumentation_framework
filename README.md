@@ -55,7 +55,7 @@ On appelle "Argumentation Framework" (AF) un graphe <A,R> avec les arguments A e
 
 **EXECUTION**
 
-Il existe une méthode pour exécuter le programme :
+Allez dans le dossier `files`. Il existe une méthode pour exécuter le programme :
 
 ```python3 ./program.py [OPT1] [ARG1] [OPT2] [ARG2]```
 
