@@ -15,6 +15,7 @@
 **Informations généraux**
 - Le sujet du projet : [projet.pdf](https://github.com/eio-ta/argumentation_framework/blob/main/sujet_projet.pdf)
 - Le lien du GitHub : [lien](https://github.com/eio-ta/argumentation_framework)
+- Le rapport PDF : [rapport.pdf]()
 
 **Identifiants et membres du groupe**
 1. TANG Elody, 21953199, Master VMI
@@ -23,25 +24,29 @@
 
 ## Fonctionnalités
 
-On appelle "Argumentation Framework" (AF) un graphe <A,R> avec les arguments A et les attaques R. Le programme ci-présent donne les différentes extensions et sémantiques.
-
-Cette version accepte les options qui doivent être précédées d'un tiret et doit être suivies par un argument.
+On appelle "Argumentation Framework" (AF) un graphe <A,R> avec les arguments A et les attaques R. Le programme donne les différentes extensions et sémantiques. Cette version accepte les options qui doivent être précédées d'un tiret et doit être suivies par un argument.
 
 **Fonctionnalités principales :**
 
-1.
-2.
-3.
-4.
-5.
+1. Transformation des données d'un fichier vers un graphe <A,R> avec une lecture de fichiers.
+2. Recherche et affichage de la sémantique complète.
+3. Recherche et affichage de la sémantique stable.
+4. Recherche si un argument est crédulement accepté dans la sémantique complète.
+5. Recherche si un argument est sceptiquement accepté dans la sémantique complète.
+6. Recherche si un argument est crédulement accepté dans la sémantique stable.
+7. Recherche si un argument est sceptiquement accepté dans la sémantique stable.
 
 **Fonctionnalités secondaires :**
 
-1.
-2.
-3.
-4.
-5.
+1. Affichage du graphe <A,R> avec les arguments A et les attaques R.
+2. Recherche et affichage de la sémantique fondée.
+3. Recherche et affichage de la sémantique préférée.
+4. Affichage de toutes les sémantiques recherchées.
+5. Recherche et affichage des arguments crédulement acceptés pour la sémantique complète.
+6. Recherche et affichage des arguments sceptiquement acceptés pour la sémantique complète.
+7. Recherche et affichage des arguments crédulement acceptés pour la sémantique stable.
+8. Recherche et affichage des arguments sceptiquement acceptés pour la sémantique stable.
+
 
 
 
