@@ -15,7 +15,7 @@
 **Informations généraux**
 - Le sujet du projet : [projet.pdf](https://github.com/eio-ta/argumentation_framework/blob/main/sujet_projet.pdf)
 - Le lien du GitHub : [lien](https://github.com/eio-ta/argumentation_framework)
-- Le rapport PDF : [rapport.pdf](https://github.com/eio-ta/argumentation_framework/blob/main/rapport.pdf)
+- Le rapport PDF : [rapport.pdf](https://github.com/eio-ta/argumentation_framework/blob/main/rapport_tang.pdf)
 
 **Identifiants et membres du groupe**
 1. TANG Elody, 21953199, Master VMI
