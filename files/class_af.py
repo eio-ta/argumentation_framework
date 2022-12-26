@@ -118,22 +118,31 @@ class ArgF:
                     valide.append(d)
 
         if(valide == ori and len(ori) == 1 and self.is_well(ori[0])):
-            return valide
+            return valide, invalide
         if(valide == ori and len(ori) == 1 and self.is_weak(ori[0])):
-            return []
-        return valide
+            return [], invalide
+        return valide, invalide
     
 
     # Retourne tous les arguments non attaqués et ceux défendus par la liste ori de manière récursive
     def defense_recursive(self, ori = []):
         valide = ori
-        tmp_def = self.defense(ori)
+        tmp_def, tmp_att = self.defense(ori)
         while(valide != tmp_def):
             if(self.is_cf(tmp_def)):
                 return None
             else:
                 valide = tmp_def
-                tmp_def = self.defense(valide)
+                tmp_def, tmp_att = self.defense(valide)
+        
+        for e in self.args:
+            if(e not in valide and e not in tmp_att):
+                for e in self.args:
+                    if(e not in valide and e not in tmp_att):
+                        for a, b in self.attacks:
+                            if(a == e and b in valide):
+                                return None
+                return valide
         return valide
 
 

@@ -98,7 +98,7 @@ def print_help():
     print("\033[1m" + "LISTE DES CODES POSSIBLES" + "\033[0m")
     print("\033[1m  PR-AF  \033[0m Affiche le graphe.")
     print()
-    
+
     print("\033[1m  GE-GR  \033[0m Affiche la sémantique fondée.")
     print()
     print("\033[1m  GE-CO  \033[0m Affiche la sémantique complète.")
