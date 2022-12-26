@@ -29,8 +29,8 @@ On appelle "Argumentation Framework" (AF) un graphe <A,R> avec les arguments A e
 **Fonctionnalités principales :**
 
 1. Transformation des données d'un fichier vers un graphe <A,R> avec une lecture de fichiers.
-2. Recherche et affichage de la sémantique complète.
-3. Recherche et affichage de la sémantique stable.
+2. Recherche et affichage de l'une des extensions de la sémantique complète.
+3. Recherche et affichage de l'une des extensions de la sémantique stable.
 4. Recherche si un argument est crédulement accepté dans la sémantique complète.
 5. Recherche si un argument est sceptiquement accepté dans la sémantique complète.
 6. Recherche si un argument est crédulement accepté dans la sémantique stable.
@@ -41,11 +41,15 @@ On appelle "Argumentation Framework" (AF) un graphe <A,R> avec les arguments A e
 1. Affichage du graphe <A,R> avec les arguments A et les attaques R.
 2. Recherche et affichage de la sémantique fondée.
 3. Recherche et affichage de la sémantique préférée.
-4. Affichage de toutes les sémantiques recherchées.
-5. Recherche et affichage des arguments crédulement acceptés pour la sémantique complète.
-6. Recherche et affichage des arguments sceptiquement acceptés pour la sémantique complète.
-7. Recherche et affichage des arguments crédulement acceptés pour la sémantique stable.
-8. Recherche et affichage des arguments sceptiquement acceptés pour la sémantique stable.
+4. Recherche et affichage de la sémantique complète.
+5. Recherche et affichage de la sémantique stable.
+6. Affichage de toutes les sémantiques recherchées.
+7. Recherche et affichage de l'une des extensions de la sémantique fondée.
+8. Recherche et affichage de l'une des extensions de la sémantique préférée.
+9. Recherche et affichage des arguments crédulement acceptés pour la sémantique complète.
+10. Recherche et affichage des arguments sceptiquement acceptés pour la sémantique complète.
+11. Recherche et affichage des arguments crédulement acceptés pour la sémantique stable.
+12. Recherche et affichage des arguments sceptiquement acceptés pour la sémantique stable.
 
 
 
@@ -86,11 +90,15 @@ Les options "p" et "f" sont obligatoires.
 **LISTE DES CODES POSSIBLES**
 
 - **PR-AF** :   Affiche le graphe.
-- **SE-GR** :   Donne la sémantique fondée.
-- **SE-CO** :   Donne la sémantique complète.
-- **SE-PR** :   Donne la sémantique préférée.
-- **SE-ST** :   Donne la sémantique stable.
-- **SE-ALL** :  Donne toutes les sémantiques.
+- **GE-GR** :   Affiche la sémantique fondée.
+- **GE-CO** :   Affiche la sémantique complète.
+- **GE-PR** :   Affiche la sémantique préférée.
+- **GE-ST** :   Affiche la sémantique stable.
+- **GE-ALL** :  Affiche toutes les sémantiques.
+- **SE-GR** :   Donne l'une des extensions de la sémantique fondée.
+- **SE-CO** :   Donne l'une des extensions de la sémantique complète.
+- **SE-PR** :   Donne l'une des extensions de la sémantique préférée.
+- **SE-ST** :   Donne l'une des extensions de la sémantique stable.
 - **DC-CO** :   (Sans argument) Donne tous les arguments crédulement acceptés
                 (Avec un argument) Vérifie si l'argument est crédulement accepté. [Pour la sémantique complète].
 - **DS-CO** :   (Sans argument) Donne tous les arguments sceptiquement accepté.

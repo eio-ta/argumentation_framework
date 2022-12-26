@@ -98,16 +98,27 @@ def print_help():
     print("\033[1m" + "LISTE DES CODES POSSIBLES" + "\033[0m")
     print("\033[1m  PR-AF  \033[0m Affiche le graphe.")
     print()
-    print("\033[1m  SE-GR  \033[0m Donne la sémantique fondée.")
+    
+    print("\033[1m  GE-GR  \033[0m Affiche la sémantique fondée.")
     print()
-    print("\033[1m  SE-CO  \033[0m Donne la sémantique complète.")
+    print("\033[1m  GE-CO  \033[0m Affiche la sémantique complète.")
     print()
-    print("\033[1m  SE-PR  \033[0m Donne la sémantique préférée.")
+    print("\033[1m  GE-PR  \033[0m Affiche la sémantique préférée.")
     print()
-    print("\033[1m  SE-ST  \033[0m Donne la sémantique stable.")
+    print("\033[1m  GE-ST  \033[0m Affiche le graphe.")
     print()
-    print("\033[1m  SE-ALL  \033[0m Donne toutes les sémantiques.")
+    print("\033[1m  GE-ALL  \033[0m Affiche toutes les sémantiques.")
     print()
+
+    print("\033[1m  SE-GR  \033[0m Donne l'une des extensions de la sémantique fondée.")
+    print()
+    print("\033[1m  SE-CO  \033[0m Donne l'une des extensions de la sémantique complète.")
+    print()
+    print("\033[1m  SE-PR  \033[0m Donne l'une des extensions de la sémantique préférée.")
+    print()
+    print("\033[1m  SE-ST  \033[0m Donne l'une des extensions de la sémantique stable.")
+    print()
+
     print("\033[1m  DC-CO  \033[0m (Sans argument) Donne tous les arguments crédulement acceptés. (Avec un argument) Vérifie si l'argument est crédulement accepté. [Pour la sémantique complète].")
     print()
     print("\033[1m  DS-CO  \033[0m (Sans argument) Donne tous les arguments sceptiquement acceptés. (Avec un argument) Vérifie si l'argument est sceptiquement accepté. [Pour la sémantique complète].")
@@ -124,24 +135,26 @@ def good_code(code, arg, af):
     co = af.completed()
     pr = af.preferred(co)
     st = af.stable(pr)
+    tmp = []
 
     match code:
         case "PR-AF":
             af.print_argf()
             return
-        case "SE-GR":
+
+        case "GE-GR":
             print_ans(gr)
             return
-        case "SE-CO":
+        case "GE-CO":
             print_ans(co)
             return
-        case "SE-PR":
+        case "GE-PR":
             print_ans(pr)
             return
-        case "SE-ST":
+        case "GE-ST":
             print_ans(st)
             return
-        case "SE-ALL":
+        case "GE-ALL":
             print("Grounted : ", end = '')
             print_ans(gr)
             print("Completed : ", end = '')
@@ -150,7 +163,28 @@ def good_code(code, arg, af):
             print_ans(pr)
             print("Stable : ", end = '')
             print_ans(st)
+
+        case "SE-GR":
+            if(len(gr) > 0):
+                tmp = gr[0]
+            print_ans(tmp)
             return
+        case "SE-CO":
+            if(len(co) > 0):
+                tmp = co[0]
+            print_ans(tmp)
+            return
+        case "SE-PR":
+            if(len(pr) > 0):
+                tmp = pr[0]
+            print_ans(tmp)
+            return
+        case "SE-ST":
+            if(len(st) > 0):
+                tmp = st[0]
+            print_ans(tmp)
+            return
+        
         case "DS-CO":
             if(arg != ""):
                 print_bol(contains_all(arg, co, True, af))
