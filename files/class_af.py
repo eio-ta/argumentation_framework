@@ -62,21 +62,19 @@ class ArgF:
         return True
 
 
-    # Retourne True si l'argument e n'attaque personne
+    # Retourne True si l'argument e n'attaque personne dans une liste
     # Retourne False sinon
-    def is_weak(self, e):
-        for a, b in self.attacks:
+    def is_weak(self, e, list):
+        for a, b in list:
             if(a == e):
                 return False
         return True
     
 
-    # Retourne True si l'argument e n'attaque personne et n'est pas attaqué
+    # Retourne True si l'argument e n'est pas attaqué dans une liste
     # Retourne False sinon
-    def is_well(self, e):
-        for a, b in self.attacks:
-            if(a == e):
-                return False
+    def is_well(self, e, list):
+        for a, b in list:
             if(b == e):
                 return False
         return True
@@ -94,46 +92,75 @@ class ArgF:
     # Retourne tous les arguments non attaqués
     def get_valide(self):
         valide = list(self.args)
-        for a, b in self.attacks:
-            if(b in valide):
-                valide.remove(b)
+        for e in self.args:
+            if(not self.is_well(e, self.attacks)):
+                valide.remove(e)
         return valide
     
 
     # Retourne tous les arguments non attaqués et ceux défendus par la liste ori
     def defense(self, ori = []):
-        valide = list(ori)
+        valide = []
         if(valide == []):
             valide = self.get_valide()
         invalide = []
 
-        for e in ori:
-            for a, b in self.attacks:
-                if(a == e and b not in valide):
-                    invalide.append(b)
-            
-        for e in invalide:
-            for c, d in self.attacks:
-                if(c == e and d not in invalide and d not in valide):
-                    valide.append(d)
+        tmp_attack = list(self.attacks)
 
-        if(valide == ori and len(ori) == 1 and self.is_well(ori[0])):
-            return valide, invalide
-        if(valide == ori and len(ori) == 1 and self.is_weak(ori[0])):
+        for e in ori :
+            for a, b in self.attacks:
+                if(a == e):
+                    # on regarde les attaques des méchants
+                    for c, d in self.attacks:
+                        if(c == b):
+                            # Suppression des attaques invalides
+                            if([c, d] in tmp_attack):
+                                tmp_attack.remove([c, d])
+                    if(b not in invalide):
+                        invalide.append(b)
+
+        for e in self.args:
+            if(self.is_well(e, tmp_attack)):
+                if(e not in valide):
+                    valide.append(e)
+
+        for a, b in tmp_attack:
+            if(a not in valide) :
+                se_fait_attaquer = False
+                for c, d in tmp_attack:
+                    if(d == a):
+                        se_fait_attaquer = True
+                        if(d not in invalide):
+                            invalide.append(d)
+                if(se_fait_attaquer == False):
+                    if(a not in valide):
+                        valide.append(a)
+
+        if(valide == ori and len(ori) == 1 and self.is_weak(ori[0], self.attacks) and self.is_well(ori[0], self.attacks)):
             return [], invalide
+        
+        if(valide == ori and len(ori) == 1 and self.is_well(ori[0], self.attacks)):
+            return valide, invalide
         return valide, invalide
     
 
     # Retourne tous les arguments non attaqués et ceux défendus par la liste ori de manière récursive
     def defense_recursive(self, ori = []):
-        valide = ori
+        valide = list(ori)
         tmp_def, tmp_att = self.defense(ori)
+        tmp_rep = []
         while(valide != tmp_def):
             if(self.is_cf(tmp_def)):
                 return None
             else:
-                valide = tmp_def
-                tmp_def, tmp_att = self.defense(valide)
+                if(tmp_def not in tmp_rep):
+                    tmp_rep.append(tmp_def)
+                    valide = tmp_def
+                    tmp_def, tmp_att = self.defense(valide)
+                else:
+                    #boucle infini
+                    return None
+
         
         for e in self.args:
             if(e not in valide and e not in tmp_att):
@@ -149,7 +176,8 @@ class ArgF:
     # Retourne la sémantique fondée
     def grounded(self):
         res = []
-        res.append(self.defense_recursive())
+        valide = self.defense_recursive()
+        res.append(valide)
         if(res == [None]):
             res = []
             res.append(self.get_valide())
@@ -168,6 +196,7 @@ class ArgF:
             tmp = list(permutations[i])
             if(self.is_cf(tmp) == False):
                 tmp_def = self.defense_recursive(tmp)
+                # print(tmp, tmp_def)
                 tmp_valide = self.get_valide()
                 if(tmp_def != None):
                     if(all(elem in tmp_def for elem in tmp_valide)):
